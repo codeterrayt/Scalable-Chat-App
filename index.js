@@ -5,7 +5,6 @@ const redis = require('ioredis');
 const initStoreKafka = require("./app/kafka/KafkaProducer");
 const express = require("express");
 
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
@@ -31,42 +30,42 @@ redisClient.on("end", function (err) {
 
 
 
-redisClient.subscribe(redisChannel,(err,count)=>{
+redisClient.subscribe(redisChannel, (err, count) => {
     if (err) {
         // Just like other commands, subscribe() can fail for some reasons,
         // ex network issues.
         console.error("Failed to subscribe: %s", err.message);
-      } else {
+    } else {
         // `count` represents the number of channels this client are currently subscribed to.
         console.log(
-          `Subscribed successfully! This client is currently subscribed to ${count} channels.`
+            `Subscribed successfully! This client is currently subscribed to ${count} channels.`
         );
-      }
+    }
 })
 
 // Socket.io
 io.on("connection", (socket) => {
 
     console.log("new user is connected", socket.id)
-    redisPub.publish(redisChannel, JSON.stringify({message:`${socket.id} Connected`}));
+    redisPub.publish(redisChannel, JSON.stringify({ message: `${socket.id} Connected` }));
 
     socket.on('chat message', async (data) => {
-        let message = JSON.stringify({message:data});
+        let message = JSON.stringify({ message: data });
         redisPub.publish(redisChannel, message);
         await initStoreKafka(message);
     });
 
 
     socket.on("disconnect", data => {
-        redisPub.publish(redisChannel, JSON.stringify({message:`${socket.id} Disconnected`}));
+        redisPub.publish(redisChannel, JSON.stringify({ message: `${socket.id} Disconnected` }));
     })
 
 
 });
 
 
-redisClient.on("message",(channel,message)=>{
-    io.emit('chat message',JSON.parse(message).message);
+redisClient.on("message", (channel, message) => {
+    io.emit('chat message', JSON.parse(message).message);
 })
 
 // set the view engine to ejs
@@ -78,4 +77,4 @@ app.get("/", (req, res) => {
     return res.render("index");
 });
 
-server.listen(8000, () => console.log(`Server Started at PORT:8000`));
+server.listen(process.env.WEB_APP_PORT, () => console.log(`Server Started at PORT:8000`));
