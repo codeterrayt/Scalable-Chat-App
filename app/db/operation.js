@@ -1,7 +1,7 @@
 const Message = require("./schema");
 
 
-module.exports = async function storeMessage(messages){
+async function storeMessages(messages) {
     try {
         const insertedMessages = await Message.insertMany(messages);
         console.log(`${insertedMessages.length} messages inserted successfully.`);
@@ -12,3 +12,20 @@ module.exports = async function storeMessage(messages){
     }
 }
 
+async function fetchAllMessages() {
+    let msg = await Message.find().sort({ createdAt: -1 }).limit(20).exec((err, records) => {
+        if (err) {
+            console.error(err);
+            // Handle the error appropriately
+        } else {
+            console.log(records);
+            // Process the fetched records
+        }
+    });
+    return msg;
+}
+
+module.exports = {
+    storeMessages,
+    fetchAllMessages
+}
