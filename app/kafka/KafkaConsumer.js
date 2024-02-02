@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const { kafka } = require("./KafkaClient");
-const storeMessages = require("../db/operation");
+const { storeMessages } = require("../db/operation");
 
 module.exports = async function () {
     const consumer = kafka.consumer({groupId:process.env.KAFKA_GROUP_ID});
