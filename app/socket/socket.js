@@ -9,6 +9,8 @@ const redisNor = new redis();
 
 let io;
 let server;
+
+
 const createServer = async (app) => {
     server = http.createServer(app);
     io = new Server(server);
@@ -42,8 +44,10 @@ const init = async () => {
         }
     })
 
-    const pushMessage = async data => {
-        let message = JSON.stringify({ message: data });
+    const pushMessage = async (data,socket_id) => {
+        let l = { message: `${data}`, "createdAt":Date.now(), socket_id };
+        
+        let message = JSON.stringify(l);
         redisPub.publish(redisChannel, message);
         await redisNor.rpush("messages", message);
         await initStoreKafka(message);
@@ -51,18 +55,15 @@ const init = async () => {
 
     // Socket.io
     io.on("connection", (socket) => {
-
-        console.log("new user is connected", socket.id)
-        pushMessage(`${socket.id} Joined the Chat!`);
+        pushMessage(`${socket.id} Joined the Chat!`,socket.id);
         
-
         socket.on('chat message', async (data) => {
-            pushMessage(data);
+            pushMessage(data,socket.id);
         });
 
 
         socket.on("disconnect", data => {
-            pushMessage(`${socket.id} Left the Chat!`);
+            pushMessage(`${socket.id} Left the Chat!`,socket.id);
         })
 
 
@@ -70,7 +71,8 @@ const init = async () => {
 
 
     redisClient.on("message", (channel, message) => {
-        io.emit('chat message', JSON.parse(message).message);
+        console.log(message)
+        io.emit('chat message', JSON.parse(message));
     })
 
     server.listen(process.env.WEB_APP_PORT, () => console.log(`Server Started at PORT:${process.env.WEB_APP_PORT}`));

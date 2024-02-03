@@ -62,7 +62,19 @@
 </head>
 
 <body>
-    <ul id="messages"></ul>
+    <ul id="messages">
+
+
+
+        <% message.forEach(function(msg) { %>
+            <li>
+                <strong> <%= JSON.parse(msg).socket_id %></strong>
+               <p> <%= JSON.parse(msg).message %></p>
+            </li>
+            <% }); %>
+
+    
+    </ul>
     <div id="form" action="">
         <input id="input" autocomplete="off" /><button style="cursor: pointer;" id="send-message-btn">Send</button>
     </div>
@@ -71,8 +83,7 @@
 <script src="./socket.io/socket.io.js"></script>
 <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
 <script defer>
-    var socket = io();
-
+   
     let send_message_btn = document.getElementById("send-message-btn");
     let message_box = document.getElementById("input");
 
@@ -85,11 +96,21 @@
         }
     });
 
-    socket.on("chat message", msg => {
+    function insertMessage(msg) {
         var item = document.createElement('li');
-        item.textContent = msg;
+        var item2 = document.createElement('strong');
+        item2.textContent = msg.socket_id 
+        // console.log(msg)
+        item.textContent = msg.message;
         messages.appendChild(item);
+        messages.appendChild(item2);
         window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    var socket = io();
+
+    socket.on("chat message", msg => {
+        insertMessage(msg)
     })
 
 

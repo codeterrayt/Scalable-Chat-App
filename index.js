@@ -12,7 +12,7 @@ const { createServer } = require("./app/socket/socket")
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-app.use(express.static(path.resolve("./public")));
+// app.use(express.static(path.resolve("./public")));
 
 app.use('/',router);
 
