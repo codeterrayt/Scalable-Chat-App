@@ -1,6 +1,6 @@
 const { kafka } = require("./KafkaClient"); 
 
-async function init(){
+module.exports = async function(){
     const admin = kafka.admin();
     console.log("admin connecting");
     admin.connect();
@@ -20,4 +20,3 @@ async function init(){
 
 }
 
-init();

@@ -1,5 +1,7 @@
 const kafka = require("./app/kafka/KafkaConsumer");
+const admin = require("./app/kafka/KafkaAdmin");
 
 (async ()=>{
-    kafka();
+    await admin();
+    await kafka();
 })();
