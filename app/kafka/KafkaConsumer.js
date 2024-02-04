@@ -7,7 +7,7 @@ module.exports = async function () {
     console.log("connecting to consumer");
     await consumer.connect();
 
-    await consumer.subscribe({ topics: ["chat-updates"], fromBeginning: true })
+    await consumer.subscribe({ topics: [process.env.KAFKA_TOPIC], fromBeginning: true })
 
     console.log("consumer connected successfully")
 

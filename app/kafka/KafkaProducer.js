@@ -10,7 +10,7 @@ module.exports = async function (message){
     console.log("producer connected successfully")
 
     await producer.send({
-        topic:'chat-updates',
+        topic:process.env.KAFKA_TOPIC,
         messages:[
             { key:"message-update", value: message }
         ]
