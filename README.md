@@ -132,7 +132,32 @@ docker pull mongo
    docker run -p 6379:6379 redis/redis-stack-server:latest
    docker run -p 9092:9092 -e KAFKA_ZOOKEEPER_CONNECT=<IPv4-Address>:2181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://<IPv4-Address>:9092 -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 confluentinc/cp-kafka
    ```
-4. Run Project :
+4. Before Running the Project: Set Configuration
+   - Before launching the ScalableChat project, it's essential to configure the project settings in .env based on your specific setup.
+ ```bash
+# API ENV'S
+WEB_API_PORT=8000
+WEB_API_ALLOWED_ORIGIN=["http://localhost:5173", "http://127.0.0.1:5173"]
+
+# DATABASE ENV'S
+MONGO_CONNECT_STRING="mongodb://127.0.0.1:27017/scalable-chat-app-db"
+
+# SOCKET ENV'S
+SOCKET_ALLOWED_ORIGIN=["http://localhost:5173", "http://127.0.0.1:5173"]
+
+
+#REDIS ENV'S
+REDIS_CHANNEL="redis-message-channel"
+
+#KAFKA ENV'S
+KAFKA_GROUP_ID="scalable-chat-app"
+KAFKA_BROKERS="<IPv4-Address>:9092"
+PROCESS_KAFKA_MESSAGE_LIMIT=100
+KAFKA_TOPIC="chat-updates"
+KAFKA_NO_OF_PARTITIONS=1
+  ```
+
+5. Run Project :
 ```bash
 node ./app/kafka/KafkaAdmin.js
 node KafkaConsumerRunner.js 
