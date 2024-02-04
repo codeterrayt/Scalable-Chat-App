@@ -1,17 +1,29 @@
 <script>
-	import { onMount, afterUpdate  } from 'svelte';
+	import { onMount, afterUpdate } from 'svelte';
 	import io from 'socket.io-client';
 
 	let socket;
 	let messages = [];
 	let messagesContainer;
 
-	onMount(() => {
+	onMount(async () => {
+		let response = await fetch('http://localhost:8000/get_messages');
+		let messageArray = await response.json();
+
 		socket = io('http://localhost:8000');
 
-		socket.on('chat message', (data) => {
-			// console.log('Received message from server:', data);
+		setTimeout(() => {
+			messageArray.forEach((value, index, array) => {
+				let data = JSON.parse(value);
+				const isSelf = data.socket_id === socket.id;
+				messages = [...messages, { ...data, isSelf }];
+			});
+			
+		console.log(messages)
+		}, 100);
 
+
+		socket.on('chat message', (data) => {
 			const isSelf = data.socket_id === socket.id;
 			messages = [...messages, { ...data, isSelf }];
 		});
@@ -52,8 +64,8 @@
 
 		<div class="chat-whole-section">
 			<div class="chat-section" bind:this={messagesContainer}>
-				{#each messages as message (message.id || message.createdAt)}
-					<div key={message.id || message.createdAt} class:messages class:self={message.isSelf}>
+				{#each messages as message}
+					<div class:messages class:self={message.isSelf}>
 						<strong class="user">{message.socket_id}: </strong>
 						<p class="user-message">{message.message}</p>
 						<p class="message-created-at">{formatDate(message.createdAt)}</p>
