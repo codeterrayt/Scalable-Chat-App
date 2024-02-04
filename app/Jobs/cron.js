@@ -1,6 +1,6 @@
 var cron = require('node-cron');
 const Message = require("../db/schema");
-const { fetchMessagesFromRedis, updateMessagesInRedis } = require("../redis/redis")
+const { updateMessagesInRedis } = require("../redis/redis")
 
 cron.schedule('* 1 * * * *', async () => {
 
