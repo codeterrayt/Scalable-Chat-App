@@ -13,7 +13,11 @@ let server;
 
 const createServer = async (app) => {
     server = http.createServer(app);
-    io = new Server(server);
+    io = new Server(server,{
+        cors:{
+            origin: process.env.SOCKET_ALLOWED_ORIGIN
+        }
+    });
     await init();
 }
 
