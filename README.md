@@ -1,4 +1,4 @@
-# ScalableChat: A Next-Gen Distributed Chat Application
+# ScalableChat: A Next-Gen Scalable Distributed Chat Application
 
 
 ## **Overview:**
