@@ -9,8 +9,8 @@ module.exports = async function(){
     console.log("Creating topic..")
     await admin.createTopics({
         topics:[{
-            topic:"chat-updates",
-            numPartitions:1
+            topic:process.env.KAFKA_TOPIC,
+            numPartitions:process.env.KAFKA_NO_OF_PARTITIONS
         }] 
     });
     console.log("Topic Created Successfully");
