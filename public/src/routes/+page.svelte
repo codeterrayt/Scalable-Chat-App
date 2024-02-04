@@ -7,7 +7,9 @@
 	let messagesContainer;
 
 	onMount(async () => {
-		let response = await fetch('http://localhost:8000/get_messages');
+		let response = await fetch('http://localhost:8000/get_messages',{
+			method:"POST"
+		});
 		let messageArray = await response.json();
 
 		socket = io('http://localhost:8000');
@@ -19,7 +21,7 @@
 				messages = [...messages, { ...data, isSelf }];
 			});
 			
-		console.log(messages)
+		// console.log(messages)
 		}, 100);
 
 
