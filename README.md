@@ -10,8 +10,7 @@ ScalableChat is a sophisticated web application designed for real-time and scala
 - **Backend:** Express.js, Socket.IO, Redis, Kafka, ZooKeeper, MongoDB
 - **Frontend:** Svelte
 
-- (https://skillicons.dev/icons?i=express,mongodb,redis,kafka,)](https://skillicons.dev)
-
+- [![](https://skillicons.dev/icons?i=express,mongodb,redis,kafka,)](https://skillicons.dev)
 #### Backend Technologies:
 
 - **Express.js API:** Empowering the backend, Express.js facilitates robust API handling, making it suitable for deployment across distributed systems.
