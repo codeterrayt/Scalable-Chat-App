@@ -6,8 +6,6 @@
 ScalableChat is a sophisticated web application designed for real-time and scalable chat experiences. Leveraging a modern tech stack, it seamlessly combines backend and frontend technologies to provide a robust chat solution.
 
 #### Tech Stack:
-
-[![](https://skillicons.dev/icons?i=express,mongodb,redis,kafka,svelte)](https://skillicons.dev)
 - **Backend:** Express.js, Socket.IO, Redis, Kafka, ZooKeeper, MongoDB
 - **Frontend:** Svelte
 
