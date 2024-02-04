@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const { kafka } = require("./KafkaClient");
 const { storeMessages } = require("../db/operation");
 
@@ -28,7 +26,7 @@ module.exports = async function () {
             console.log(messages)
 
             
-            if(messages_count == 5){
+            if(messages_count == process.env.PROCESS_KAFKA_MESSAGE_LIMIT){
                 await storeMessages(messages);
                 messages_count = 0;
                 messages = [];
